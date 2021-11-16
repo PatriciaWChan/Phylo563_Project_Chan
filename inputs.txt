@@ -1,0 +1,16 @@
+I32489_S33, /staging/pwchan/I32489_S33_L001_R1_001.fastq,/staging/pwchan/I32489_S33_L001_R2_001.fastq, /staging/pwchan/I32489_S33_L002_R1_001.fastq, /staging/pwchan/I32489_S33_L002_R2_001.fastq
+I32490_S34, /staging/pwchan/I32490_S34_L001_R1_001.fastq, /staging/pwchan/I32490_S34_L001_R2_001.fastq, /staging/pwchan/I32490_S34_L002_R1_001.fastq, /staging/pwchan/I32490_S34_L002_R2_001.fastq
+I32491_S35, /staging/pwchan/I32491_S35_L001_R1_001.fastq,/staging/pwchan/I32491_S35_L001_R2_001.fastq, /staging/pwchan/I32491_S35_L002_R1_001.fastq, /staging/pwchan/I32491_S35_L002_R2_001.fastq
+I32492_S36, /staging/pwchan/I32492_S36_L001_R1_001.fastq,/staging/pwchan/I32492_S36_L001_R2_001.fastq, /staging/pwchan/I32492_S36_L002_R1_001.fastq, /staging/pwchan/I32492_S36_L002_R2_001.fastq
+I32493_S37, /staging/pwchan/I32493_S37_L001_R1_001.fastq,/staging/pwchan/I32493_S37_L001_R2_001.fastq, /staging/pwchan/I32493_S37_L002_R1_001.fastq, /staging/pwchan/I32493_S37_L002_R2_001.fastq
+I32494_S38, /staging/pwchan/I32494_S38_L001_R1_001.fastq,/staging/pwchan/I32494_S38_L001_R2_001.fastq, /staging/pwchan/I32494_S38_L002_R1_001.fastq, /staging/pwchan/I32494_S38_L002_R2_001.fastq
+I32495_S39, /staging/pwchan/I32495_S39_L001_R1_001.fastq,/staging/pwchan/I32495_S39_L001_R2_001.fastq, /staging/pwchan/I32495_S39_L002_R1_001.fastq, /staging/pwchan/I32495_S39_L002_R2_001.fastq
+I32496_S40, /staging/pwchan/I32496_S40_L001_R1_001.fastq,/staging/pwchan/I32496_S40_L001_R2_001.fastq, /staging/pwchan/I32496_S40_L002_R1_001.fastq, /staging/pwchan/I32496_S40_L002_R2_001.fastq
+I32497_S41, /staging/pwchan/I32497_S41_L001_R1_001.fastq,/staging/pwchan/I32497_S41_L001_R2_001.fastq, /staging/pwchan/I32497_S41_L002_R1_001.fastq, /staging/pwchan/I32497_S41_L002_R2_001.fastq
+I32498_S42, /staging/pwchan/I32498_S42_L001_R1_001.fastq,/staging/pwchan/I32498_S42_L001_R2_001.fastq, /staging/pwchan/I32498_S42_L002_R1_001.fastq, /staging/pwchan/I32498_S42_L002_R2_001.fastq
+I32499_S43, /staging/pwchan/I32499_S43_L001_R1_001.fastq,/staging/pwchan/I32499_S43_L001_R2_001.fastq, /staging/pwchan/I32499_S43_L002_R1_001.fastq, /staging/pwchan/I32499_S43_L002_R2_001.fastq
+I32500_S44, /staging/pwchan/I32500_S44_L001_R1_001.fastq,/staging/pwchan/I32500_S44_L001_R2_001.fastq, /staging/pwchan/I32500_S44_L002_R1_001.fastq, /staging/pwchan/I32500_S44_L002_R2_001.fastq
+I32501_S45, /staging/pwchan/I32501_S45_L001_R1_001.fastq,/staging/pwchan/I32501_S45_L001_R2_001.fastq, /staging/pwchan/I32501_S45_L002_R1_001.fastq, /staging/pwchan/I32501_S45_L002_R2_001.fastq
+I32502_S46, /staging/pwchan/I32502_S46_L001_R1_001.fastq,/staging/pwchan/I32502_S46_L001_R2_001.fastq, /staging/pwchan/I32502_S46_L002_R1_001.fastq, /staging/pwchan/I32502_S46_L002_R2_001.fastq
+
+

@@ -1,6 +1,6 @@
 #!/bin/bash
 ##args = $(CLUSTER) $(PROCESS) $(SAMPLE) $(READS1) $(READS2) $(READS3) $(READS4) $(REFERENCE)
-
+### original script written by Nisa Karimi, adapted by Patricia Chan
 CLUSTER=$1; shift
 PROCESS=$1; shift
 
@@ -14,17 +14,17 @@ referenceSeq=$1; shift
 ###############
 ####Unzip programs
 ###PATHS for each program needed here
-
 tar zxf sam_bcf_tools.tar.gz
+#tar zxf bcftools-1.14.tar.bz2 bwa-0.7.17.tar-1.bz2 samtools-1.14.tar.bz2
 ls -lh
 ls ./Trimmomatic-0.39
 
 #export PATH=$(pwd)/Trimmomatic-0.39:$PATH
-export PATH=$(pwd)/sam_bcf_tools/vcftools_0.1.13/bin:$PATH
-export PATH=$(pwd)/sam_bcf_tools/samtools-1.10:$PATH ###no longer requires ./samtools which refers to 1.3 in home
-export PATH=$(pwd)/sam_bcf_tools/bcftools-1.10.2:$PATH
+#export PATH=$(pwd)/sam_bcf_tools/vcftools_0.1.13/bin:$PATH
+export PATH=$(pwd)/sam_bcf_tools/samtools-1.14:$PATH ###no longer requires ./samtools which refers to 1.3 in home
+export PATH=$(pwd)/sam_bcf_tools/bcftools-1.14:$PATH
 
-export PATH=$(pwd)/bwa:$PATH
+export PATH=$(pwd)/bwa-0.7.17:$PATH
 #export PATH=$(pwd)/samtools-1.3.1:$PATH
 #export PATH=$(pwd)/samtools:$PATH
 
@@ -41,7 +41,7 @@ cp $reads2 ./
 cp $reads3 ./
 cp $reads4 ./
 
-ls *.fastq.gz
+ls *.fastq
 
 reads1=$(basename $reads1)
 reads2=$(basename $reads2)
@@ -54,13 +54,13 @@ reads4=$(basename $reads4)
 /bin/echo "Printing Args.."
 ls $reads1
 ls $reads3
-ls $sample
+echo $sample
 
 /bin/echo "Starting Trimmomatic.."
-#java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 $sample_P1.fq.gz $sample_U1.fq.gz $sample_P2.fq.gz $sample_U2.fq.gz ILLUMINACLIP:Calochortus.adaptors:2:30:10: SLIDINGWINDOW:5:20
-java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 -baseout $sample.fq.gz ILLUMINACLIP:Calochortus.adaptors:2:30:10: SLIDINGWINDOW:5:20
+#java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 $sample_P1.fq.gz $sample_U1.fq.gz $sample_P2.fq.gz $sample_U2.fq.gz ILLUMINACLIP:Calochortus.adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 -baseout $sample.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
 
-java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 -baseout temp.fq.gz ILLUMINACLIP:Calochortus.adaptors:2:30:10: SLIDINGWINDOW:5:20
+java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 -baseout temp.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
 
 
 ######################
