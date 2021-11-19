@@ -58,9 +58,9 @@ echo $sample
 
 /bin/echo "Starting Trimmomatic.."
 #java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 $sample_P1.fq.gz $sample_U1.fq.gz $sample_P2.fq.gz $sample_U2.fq.gz ILLUMINACLIP:Calochortus.adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
-java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 -baseout $sample.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 -baseout $sample.trimA.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
 
-java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 -baseout temp.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 -baseout $sample.trimB.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
 
 
 ######################
@@ -71,7 +71,7 @@ bwa index $referenceSeq
 #bwa mem $referenceSeq '<zcat *L001_R1_001.fastq.gz *L002_R1_001.fastq.gz' '<zcat *L001_R2_001.fastq.gz *L002_R2_001.fastq.gz' > $sample.sam
 #bwa mem $referenceSeq  *L001_R1_001.fastq.gz *L001_R2_001.fastq.gz > $sample.sam
 
-bwa mem $referenceSeq '<zcat $sample.1P.fq.gz $sample.2P.fq.gz' '<zcat temp.1P.fq.gz temp.2P.fq.gz' > $sample.sam
+bwa mem $referenceSeq '<zcat $sample.trimA_1P.fq.gz $sample.trimA_2P.fq.gz' '<zcat $sample.trimB_1P.fq.gz $sample.trimB_2P.fq.gz' > $sample.sam
 
 samtools view -S -b $sample.sam > $sample.bam      ##-h flag in view to include the header
 
