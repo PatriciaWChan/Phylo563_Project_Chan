@@ -1,23 +1,27 @@
 # submit file for Darwinia_plastomes.bwa.sh
 
 universe = vanilla
-log = job_$(Cluster).log
-error = job_$(Cluster)_$(Process).err
-output = job_$(Cluster)_$(Process).out
+log = ../job_outputs/job_$(Cluster).log
+error = ../job_outputs/job_$(Cluster)_$(Process).err
+output = ../job_outputs/job_$(Cluster)_$(Process).out
 
 executable = Darwinia_plastomes.bwa.sh
-arguments = $(CLUSTER) $(PROCESS) $(SAMPLE) $(READS1) $(READS2) $(READS3) $(READS4) /staging/pwchan/Eucalyptus_albens.fasta
+arguments = $(CLUSTER) $(PROCESS) $(SAMPLE) $(READS1) $(READS2) $(READS3) $(READS4) $(REFERENCE)
+
+REFERENCE = /staging/pwchan/Eucalyptus_albens.fasta
+initialdir = assembly_outputs
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
-transfer_input_files = Trimmomatic-0.39, bwa-0.7.17, sam_bcf_tools.tar.gz, Darwinia_adaptors.txt
+transfer_input_files = ../Trimmomatic-0.39, ../bwa-0.7.17, ../sam_bcf_tools.tar.gz, ../Darwinia_adaptors.txt, $(REFERENCE)
 
 request_cpus = 1
 request_memory = 4GB
 request_disk = 6GB
 
 requirements = (HasCHTCStaging == true)
-queue SAMPLE, READS1, READS2, READS3, READS4 from [0:1] inputs.txt
+queue SAMPLE, READS1, READS2, READS3, READS4 from inputs.txt
+#inserting [0:1] after READS4 will only do 1 sample instead of all 14
 
 #queue SAMPLE in (
 #I32489_S33 I32490_S34 I32491_S35 I32492_S36 I32493_S37 I32494_S38 I32495_S39

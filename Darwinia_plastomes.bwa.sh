@@ -71,7 +71,7 @@ bwa index $referenceSeq
 #bwa mem $referenceSeq '<zcat *L001_R1_001.fastq.gz *L002_R1_001.fastq.gz' '<zcat *L001_R2_001.fastq.gz *L002_R2_001.fastq.gz' > $sample.sam
 #bwa mem $referenceSeq  *L001_R1_001.fastq.gz *L001_R2_001.fastq.gz > $sample.sam
 
-bwa mem $referenceSeq '<zcat $sample_1P.fq.gz $sample_2P.fq.gz' '<zcat temp_1P.fq.gz temp_2P.fq.gz' > $sample.sam
+bwa mem $referenceSeq '<zcat $sample.1P.fq.gz $sample.2P.fq.gz' '<zcat temp.1P.fq.gz temp.2P.fq.gz' > $sample.sam
 
 samtools view -S -b $sample.sam > $sample.bam      ##-h flag in view to include the header
 
@@ -112,8 +112,7 @@ bcftools index $sample.calls.vcf.gz
 bcftools consensus -f $referenceSeq $sample.calls.vcf.gz -o $sample.plastome.fasta
 
 #rename the sequence per the filename:
-awk '/^>/{print ">" substr(FILENAME,1,length(FILENAME)-15); next} 1’ $sample.plastome.fasta
-
+awk '/^>/{print ">" substr(FILENAME,1,length(FILENAME)-15); next} 1' $sample.plastome.fasta
 
 #####################
 #rm files from execute node
@@ -124,12 +123,11 @@ rm $reads3
 rm $reads4
 rm I19704_as_reference.fasta.*
 rm temp_*.fq.gz
-rm $sample_1P.fq.gz 
-rm $sample_2P.fq.gz
+rm ${sample}_1P.fq.gz 
+rm ${sample}_2P.fq.gz
 rm *.sam
 rm *gz.csi
 rm *sorted.bam.bai
-
 
 
 #tar zcvf $sample.plastome.output.tar $sample.cns.fasta $sample.sorted.bam *txt $sample.calls.vcf.gz
