@@ -57,11 +57,16 @@ ls $reads3
 echo $sample
 
 /bin/echo "Starting Trimmomatic.."
-#java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 $sample_P1.fq.gz $sample_U1.fq.gz $sample_P2.fq.gz $sample_U2.fq.gz ILLUMINACLIP:Calochortus.adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
-java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 -baseout $sample.trimA.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+#line 61 previously commented out by Nisa
+#java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 $sample_P1.fq.gz $sample_U1.fq.gz $sample_P2.fq.gz $sample_U2.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 $sample_P1_L001.fq.gz $sample_U1_L001.fq.gz $sample_P2_L001.fq.gz $sample_U2_L001.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 $sample_P1_L002.fq.gz $sample_U1_L002.fq.gz $sample_P2_L002.fq.gz $sample_U2_L002.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
 
-java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 -baseout $sample.trimB.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+#additional files that Trimmomatic can generate, commented out on 11/30/2021
+#java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads1 $reads2 -baseout $sample.trimA.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
+#java -jar ./Trimmomatic-0.39/trimmomatic-0.39.jar PE $reads3 $reads4 -baseout $sample.trimB.fq.gz ILLUMINACLIP:Darwinia_adaptors.txt:2:30:10: SLIDINGWINDOW:5:20
 
+#what does -baseout $sample.fq.gz produce? what is in this file?
 
 ######################
 /bin/echo "Starting BWA.."
@@ -71,7 +76,16 @@ bwa index $referenceSeq
 #bwa mem $referenceSeq '<zcat *L001_R1_001.fastq.gz *L002_R1_001.fastq.gz' '<zcat *L001_R2_001.fastq.gz *L002_R2_001.fastq.gz' > $sample.sam
 #bwa mem $referenceSeq  *L001_R1_001.fastq.gz *L001_R2_001.fastq.gz > $sample.sam
 
-bwa mem $referenceSeq '<zcat $sample.trimA_1P.fq.gz $sample.trimA_2P.fq.gz' '<zcat $sample.trimB_1P.fq.gz $sample.trimB_2P.fq.gz' > $sample.sam
+
+#concatenating P1 and P2 reads from each lane
+#removed trimA, trimB in file names
+#bwa mem $referenceSeq '<zcat $sample.trimA_1P.fq.gz $sample.trimA_2P.fq.gz' '<zcat $sample.trimB_1P.fq.gz $sample.trimB_2P.fq.gz' > $sample.sam
+#this one worked last time
+bwa mem $referenceSeq '<zcat $sample_P1_L001.fq.gz $sample_P2_L001.fq.gz' '<zcat $sample_P1_L002.fq.gz $sample_P2_L002.fq.gz' > $sample.sam
+#if everything works but the output looks weird (low alignment numbers), revisit line 84 and change orders of the 4 files such that P1 files are first, P2 files second
+#line below potentially puts them in different order, combining data from different lanes. didn't work 12/9 run
+#bwa mem $referenceSeq '<zcat $sample_P1_L001.fq.gz <zcat $sample_P1_L002.fq.gz' '$sample_P2_L001.fq.gz $sample_P2_L002.fq.gz' > $sample.sam
+
 
 samtools view -S -b $sample.sam > $sample.bam      ##-h flag in view to include the header
 
@@ -96,30 +110,31 @@ samtools flagstat $sample.plastome.rmdup.bam > $sample.rmdup.mappingstats.txt
 samtools depth $sample.sorted.bam > $sample.depth.txt
 samtools coverage $sample.sorted.bam > $sample.coverage.txt
 
-
 #############generate a consensus sequence######
 #To generate a consensus sequence from a BAM: samtools/vcfutils gives ambiguity codes
 	#samtools bam2fq $sample.sorted.bam | seqtk seq -A - > $sample.fa #STOUT broken pipe failed
 
 #bcftools mpileup --max-depth 500 -f $referenceSeq $sample.sorted.bam | bcftools call -mv -Ob -o $sample.calls.vcf.gz   #Needs COORINDATE SORTED NOT N SORTED
-bcftools mpileup --max-depth 5000 -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Ob -o $sample.calls.vcf.gz   #Needs COORINDATE SORTED NOT N SORTED
-
+#bcftools mpileup --max-depth 5000 -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Ob -o $sample.calls.vcf.gz   #Needs COORINDATE SORTED NOT N SORTED
+bcftools mpileup --max-depth 500 -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Oz -o $sample.calls.vcf.gz
 bcftools index $sample.calls.vcf.gz
 
 	#bcftools norm -f $referenceSeq $sample.calls.vcf.gz -Ob -o calls.norm.bcf
 	#bcftools filter --IndelGap 5 calls.norm.bcf -Ob -o calls.norm.flt-indels.bcf
 
+#create consensus sequence by appluing VCF variants to a reference fasta file
 bcftools consensus -f $referenceSeq $sample.calls.vcf.gz -o $sample.plastome.fasta
 
 #rename the sequence per the filename:
+#commenting line 129 out, 12/18/21
 awk '/^>/{print ">" substr(FILENAME,1,length(FILENAME)-15); next} 1' $sample.plastome.fasta
 
 #####################
-#rm files from execute node
+#remove files from execute node
 rm $reads1
 rm reads1*
 rm $reads2
-rm $reads3
+rm $reads
 rm $reads4
 rm I19704_as_reference.fasta.*
 rm temp_*.fq.gz
@@ -131,9 +146,9 @@ rm *sorted.bam.bai
 
 
 #tar zcvf $sample.plastome.output.tar $sample.cns.fasta $sample.sorted.bam *txt $sample.calls.vcf.gz
-#cp $sample.plastome.output.tar /staging/nkarimi
+#cp $sample.plastome.output.tar /staging/pwchan
 
-#cp $sample.cns.rmdup.fasta /staging/nkarimi
+#cp $sample.cns.rmdup.fasta /staging/pwchan
 #hope files transfer automatically.!!
 
 
