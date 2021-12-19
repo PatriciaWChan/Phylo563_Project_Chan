@@ -20,7 +20,7 @@ request_memory = 4GB
 request_disk = 6GB
 
 requirements = (HasCHTCStaging == true)
-queue SAMPLE, READS1, READS2, READS3, READS4 from [0:1] inputs.txt
+queue SAMPLE, READS1, READS2, READS3, READS4 from inputs.txt
 #inserting [0:1] after from will only do 1 sample instead of all 14
 
 #queue SAMPLE in (
