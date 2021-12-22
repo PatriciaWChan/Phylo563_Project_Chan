@@ -65,7 +65,7 @@
 
     IQ-Tree: http://www.iqtree.org/
 
-        bin/iqtree -s aligned_plastomes.phy
+        iqtree -s aligned_plastomes.phy -m MFP
 #### (Plan B) Hypothetical Tree Building
 
 10. Throw hands in air in frustration. To have something to write about, hand-build parenthetical text tree and plot in R.
