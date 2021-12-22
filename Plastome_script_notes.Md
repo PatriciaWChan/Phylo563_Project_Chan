@@ -8,17 +8,13 @@
 /Users/pattychan/documents/Phd/Spring_2021/Phylo_563/bcftools-1.13
 cd samtools-1.x    # and similarly for bcftools
 ./configure --prefix=/Users/pattychan/documents/Phd/Spring_2021/Phylo_563/bcftools-1.13
-```
-
 ### I put this inside of the bcftools folder and I'm not sure if I should have
 
-```bash
 make
 make install
 
 cd bcftools-1.x
 ./configure --prefix=/Users/pattychan/documents/Phd/Spring_2021/Phylo_563
-
 ### put the installed file into this location (Phylo 563 folder)
 
 make
@@ -27,7 +23,7 @@ make install
 
 ### change default shell to bash
 
-`chsh -s bin/bash`
+`chsh -s bin/bash
 
 #### enter user password
 
