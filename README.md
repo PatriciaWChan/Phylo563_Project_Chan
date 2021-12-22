@@ -22,7 +22,9 @@
         Adaptor file: Darwinia_adaptors.txt
 #### Plastome Assembly
 
-4. Prepare to run assembly pipeline: log into Center for High Throughput Computing CHTC remote server. Use scp to securely transfer all 54 sample.fastq files, adaptors, and reference Eucalyptus_albens.fasta into /staging folder. download and transfer zipped files for BCFtools, SAMtools, and Trimmomatic. Optional: install tools on local machine test run individual steps on one sample. See Plastome_script_notes.md
+4. Prepare to run assembly pipeline: log into Center for High Throughput Computing CHTC remote server. Use scp to securely transfer all 54 sample.fastq files, adaptors, and reference Eucalyptus_albens.fasta into /staging folder. download and transfer zipped files for BCFtools, SAMtools, and Trimmomatic. Optional: install tools on local machine test run individual steps on one sample. 
+
+        Rough test notes: Plastome_script_notes.md
 
     SAMtools and BCFtools: http://www.htslib.org/download
     Trimmomatic: http://www.usadellab.org/cms/?page=trimmomatic
