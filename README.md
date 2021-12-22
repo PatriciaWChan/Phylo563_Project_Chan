@@ -31,7 +31,10 @@
 
     Off-campus use of CHTC: https://www.doit.wisc.edu/network/vpn/
 
-5. Run assembly pipeline using condor_submit <submit file>. Submit file queues all samples as simultaneous jobs, referring to input file. Start by running one test job, modify submit and executable files as needed. Utilize condor_q to check progress. Examine output, error, log files, as well as coverage.txt depth.txt and mappingstats.txt files. 
+5. Run assembly pipeline- Submit file queues all samples as simultaneous jobs, referring to input file. Start by running one test job, modify submit and executable files as needed. Utilize condor_q to check progress. Examine output, error, log files, as well as coverage.txt depth.txt and mappingstats.txt files. 
+
+        ssh pwchan@submit1.chtc.wisc.edu
+        condor_submit Darwinia_plastomes.sub
 
     Pipeline includes trimming, alignment to reference genome, variant calling, generation of consensus sequence.
 
@@ -48,15 +51,21 @@
     Ugene: http://ugene.net/
 #### Multiple Sequence Alignment and Tree Building
 
-8. Option 1: Install MAFFT and follow prompts specifying input (.fasta) and output files using default parameters. 
+8. Multiple Sequence Alignment- Option 1: Install MAFFT and follow prompts specifying input (.fasta) and output files using default parameters. 
     Option 2: use MAFFT implemented within UGene to same effect through GUI. 
 
     MAFFT: https://mafft.cbrc.jp/alignment/software/
 
-9. Option 1: Install IQ-Tree. Implement ModelFinder to select substitution model. Utilize this to generate a maximum likelihood tree
+        mafft --auto all_plastomes.fasta > aligned_plastomes.fasta
+
+    convert .fasta to .phy files using online conversion tool: http://sequenceconversion.bugaco.com/converter/biology/sequences/fasta_to_phylip.php
+
+9. Create Tree- Option 1: Install IQ-Tree. Implement ModelFinder to select substitution model. Utilize this to generate a maximum likelihood tree
     Option 2: use IQ-Tree and ModelFinder implemented within UGene to the same effect through GUI. 
 
     IQ-Tree: http://www.iqtree.org/
+
+        bin/iqtree -s aligned_plastomes.phy
 #### (Plan B) Hypothetical Tree Building
 
 10. Throw hands in air in frustration. To have something to write about, hand-build parenthetical text tree and plot in R.
