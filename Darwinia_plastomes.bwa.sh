@@ -115,15 +115,18 @@ samtools coverage $sample.sorted.bam > $sample.coverage.txt
 	#samtools bam2fq $sample.sorted.bam | seqtk seq -A - > $sample.fa #STOUT broken pipe failed
 
 #bcftools mpileup --max-depth 500 -f $referenceSeq $sample.sorted.bam | bcftools call -mv -Ob -o $sample.calls.vcf.gz   #Needs COORINDATE SORTED NOT N SORTED
-#bcftools mpileup --max-depth 5000 -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Ob -o $sample.calls.vcf.gz   #Needs COORINDATE SORTED NOT N SORTED
-bcftools mpileup --max-depth 500 -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Oz -o $sample.calls.vcf.gz
+#bcftools mpileup --max-depth 5000 -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Ob -o $sample.calls.vcf.gz   #Needs COORINDATE SORTED NOT N SORTED #original line Nisa gave
+bcftools mpileup --max-depth 500 -A -f $referenceSeq $sample.plastome.rmdup.bam | bcftools call -mv -Oz -o $sample.calls.vcf.gz #more closely resembles Nisa's current code, -A read anomolous pairs
+#if .vcf.gz file is small, check contents for void file
+
 bcftools index $sample.calls.vcf.gz
 
 	#bcftools norm -f $referenceSeq $sample.calls.vcf.gz -Ob -o calls.norm.bcf
 	#bcftools filter --IndelGap 5 calls.norm.bcf -Ob -o calls.norm.flt-indels.bcf
 
-#create consensus sequence by appluing VCF variants to a reference fasta file
-bcftools consensus -f $referenceSeq $sample.calls.vcf.gz -o $sample.plastome.fasta
+#create consensus sequence by applying VCF variants to a reference fasta file
+#bcftools consensus -f $referenceSeq $sample.calls.vcf.gz -o $sample.plastome.fasta
+cat $referenceSeq | bcftools consensus $sample.calls.vcf.gz > $sample.plastome.fasta
 
 #rename the sequence per the filename:
 #commenting line 129 out, 12/18/21
